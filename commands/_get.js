@@ -10,3 +10,5 @@
   group: 
 CMD*/
 
+Libs.cryptomus.getPaymentLink({msg: "her"})
+
