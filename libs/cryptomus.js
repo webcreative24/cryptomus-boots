@@ -39,7 +39,7 @@ function MD5(d){
 
 function getMD5Sign(jsonData) {
   let apiKey = Bot.getProperty(libPrefix + 'ApiKey');
-  let base64Data = btoa(jsonData); // Convert JSON data to base64 string
+  let base64Data = Buffer.from(jsonData).toString('base64');
 
   return MD5(base64Data + apiKey);
 }
