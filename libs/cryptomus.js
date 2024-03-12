@@ -1,26 +1,37 @@
 let libPrefix = 'CryptomusPayment_';
 
 function getPaymentLink(options = {}) {
-    let uuidKey = Bot.getProperty(libPrefix + 'Uuid');
-    let apiKey = Bot.getProperty(libPrefix + 'ApiKey');
-    const data = {
-        amount: '100',
-        currency: 'USD',
-        merchant: uuidKey,
-        api_key: apiKey,
-        order_id: '211232',
-        url_return: 'https://gogoogle.com',
-        url_callback: 'https://gogoogle.com',
-        url_success: 'https://gogoogle.com',
-        lifetime: 3600
-    };
+    const uuidKey = Bot.getProperty(libPrefix + 'Uuid');
+    const apiKey = Bot.getProperty(libPrefix + 'ApiKey');
+    const paymentUrl = Bot.getProperty(libPrefix + 'PayUrl');
 
-    HTTP.post( {
-        url: "https://9bf8-46-53-210-219.ngrok-free.app/",
-        success: libPrefix + 'onLoadingPay',
-        error: libPrefix + 'onErrorPay',
-        body: data,
-    });
+    if (options.amount) {
+        if (!options.currency) {
+            options.currency = 'USD';
+        }
+
+        if (!options.order_id) {
+            let s4 = () => {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+
+            options.order_id = s4().toString();
+        }
+
+        options.merchant = uuidKey;
+        options.api_key = apiKey;
+
+        HTTP.post({
+            url: paymentUrl,
+            success: libPrefix + 'onLoadingPay',
+            error: libPrefix + 'onErrorPay',
+            body: options,
+        });
+    } else {
+        Bot.sendMessage('Please, provide minimum required parameters');
+    }
 }
 
 function onLoadingPay(){
@@ -37,6 +48,11 @@ function setApiToken(token) {
 
 function setUuid(uuid) {
     Bot.setProperty(libPrefix + 'Uuid', uuid, 'string');
+}
+
+function setPaymentUrl(url)
+{
+    Bot.setProperty(libPrefix + 'PayUrl', url, 'string');
 }
 
 function accept(item) {
@@ -115,6 +131,7 @@ publish({
     getPaymentLink: getPaymentLink,
     setApiKey: setApiToken,
     setUuid: setUuid,
+    setPaymentUrl: setPaymentUrl,
     acceptPayment: acceptPayment
 })
 
