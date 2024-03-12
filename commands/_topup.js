@@ -1,12 +1,13 @@
 /*CMD
-  command: /get
+  command: /topup
   help: 
   need_reply: 
   auto_retry_time: 
   folder: 
-  answer: Wait...
+  answer: How much do you want?
   keyboard: 
   aliases: 
   group: 
 CMD*/
 
+Bot.run({ command: "/setTopUpAmount" })
