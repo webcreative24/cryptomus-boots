@@ -21,7 +21,6 @@ function getPaymentLink(options = {}) {
         error: '/onErrorPay',
         body: data,
     });
-    return sign;
 }
 
 function onLoadingPay(){
