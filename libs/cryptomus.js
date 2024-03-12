@@ -1,11 +1,17 @@
 let libPrefix = 'CryptomusPayment_';
 
 function getPaymentLink(options = {}){
-  return 'http://google.com/' + options.msg; 
+  let apiKey = Bot.getProperty(libPrefix + 'ApiKey');
+  let uuidKey = Bot.getProperty(libPrefix + 'Uuid');
+  return 'API:'+ apiKey + 'UUID:' +uuidKey; 
 }
 
-function setQiwiApiTokent(token){
-  Bot.setProperty(libPrefix + 'ApiToken', token, 'string');
+function setApiToken(token){
+  Bot.setProperty(libPrefix + 'ApiKey', token, 'string');
+}
+
+function setUuid(uuid){
+  Bot.setProperty(libPrefix + 'Uuid', uuid, 'string');
 }
 
 function accept(item){
@@ -76,7 +82,8 @@ function acceptPayment(options){
 
 publish({
   getPaymentLink: getPaymentLink,
-  setQiwiApiTokent: setQiwiApiTokent,
+  setApiKey: setApiToken,
+  setUuid: setUuid,
   acceptPayment: acceptPayment
 })
 
