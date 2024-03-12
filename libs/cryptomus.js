@@ -12,9 +12,8 @@ function getPaymentLink(options = {}){
     url_success: 'https://gogoogle.com',
     lifetime: 3600
 };
-const jsonData = JSON.stringify(data);
-const sign = getMD5Sign(jsonData);
-  return sign; 
+const sign = getMD5Sign(data);
+return sign; 
 }
 
 function setApiToken(token){
@@ -39,9 +38,19 @@ function MD5(d){
 
 function getMD5Sign(jsonData) {
   let apiKey = Bot.getProperty(libPrefix + 'ApiKey');
-  let base64Data = Buffer.from(jsonData).toString('base64');
 
-  return MD5(base64Data + apiKey);
+    return MD5(
+                      options.amount + ':' +
+           					 options.currency + ':' +
+                     options.merchant + ':' +
+                     options.order_id + ':' +
+                     options.url_return + ':' +
+                     options.url_callback + ':' +
+                     options.url_success + ':' +
+                     options.lifetime + ':' + 
+                      apiKey
+                      
+  );
 }
 
 function accept(item){
