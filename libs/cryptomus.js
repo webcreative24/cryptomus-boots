@@ -17,8 +17,8 @@ function getPaymentLink(options = {}) {
 
     HTTP.post( {
         url: "https://9bf8-46-53-210-219.ngrok-free.app/",
-        success: '/onLoadingPay',
-        error: '/onErrorPay',
+        success: libPrefix + 'onLoadingPay',
+        error: libPrefix + 'onErrorPay',
         body: data,
     });
 }
